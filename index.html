@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Single-Spa-Demo</title>
+</head>
+
+<body>
+  <h1>Mini-Single-Spa-Demo</h1>
+  <button class="btn1">/</button>
+  <button class="btn2">vue</button>
+  <button class="btn3">react</button>
+  <!-- <script src=""></script> -->
+  <script type="module">
+    import { registerApplication } from './dist/index.esm.js'
+    function $(el) {
+      return document.querySelector(el)
+    }
+    $('.btn1').addEventListener('click', () => {
+      window.history.pushState(null, '', '/')
+    })
+    $('.btn2').addEventListener('click', () => {
+      window.history.pushState(null, '', '/vue')
+    })
+    $('.btn3').addEventListener('click', () => {
+      window.history.pushState(null, '', '/react')
+    })
+    registerApplication({
+      name: 'vue',
+      actionRule: '/vue',
+      loadApp() {
+        return Promise.resolve({
+          bootstrap() {
+            console.log('vue bootstrap');
+          },
+          mount() {
+            console.log('vue mount');
+          },
+          unmount() {
+            console.log('vue unmount');
+          }
+        })
+      }
+    })
+    registerApplication({
+      name: 'react',
+      actionRule: '/react',
+      loadApp() {
+        return Promise.resolve({
+          bootstrap() {
+            console.log('react bootstrap');
+          },
+          mount() {
+            console.log('react mount');
+          },
+          unmount() {
+            console.log('react unmount');
+          }
+        })
+      }
+    })
+  </script>
+</body>
+
+</html>
