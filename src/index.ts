@@ -6,6 +6,6 @@ export { default as registerApplication } from './application/registerApplicatio
 // declare const window: any
 
 // 是否运行在 single spa 下
-;(window as any).__IS_SINGLE_SPA__ = true
+(window as any).__IS_SINGLE_SPA__ = true
 
 overwriteEventsAndHistory()

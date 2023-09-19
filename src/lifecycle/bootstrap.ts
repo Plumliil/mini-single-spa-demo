@@ -1,7 +1,13 @@
 import { AppStatus, Application } from 'src/type'
 import { isPromise } from 'src/utils'
+import { parseHTMLandloadSources } from 'src/utils/parseHTMLandloadSources'
 
 export default async function bootstrapApp(app: Application) {
+  try {
+    parseHTMLandloadSources(app)
+  } catch (error) {
+    throw error
+  }
   // 对应用的生命周期进行挂载
   const { bootstrap, mount, unmount } = await app.loadApp()
   checkFun('bootstrap', bootstrap)

@@ -9,6 +9,8 @@ export default function registerApplication(app: Application) {
     const path = app.actionRule
     app.actionRule = (location = window.location) => location.pathname === path
   }
+  app.pageBody = ''
+  app.loadedURLs = []
   app.status = AppStatus.BEFORE_BOOTSTRAP
   apps.push(app)
 }
