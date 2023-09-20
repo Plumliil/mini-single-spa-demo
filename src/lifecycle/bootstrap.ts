@@ -1,6 +1,6 @@
-import { AppStatus, Application } from 'src/type'
-import { isPromise } from 'src/utils'
-import { parseHTMLandloadSources } from 'src/utils/parseHTMLandloadSources'
+import { AppStatus, Application } from '../type'
+import { isPromise } from '../utils'
+import { parseHTMLandloadSources } from '../utils/parseHTMLandloadSources'
 
 export default async function bootstrapApp(app: Application) {
   try {

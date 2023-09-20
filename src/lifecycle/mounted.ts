@@ -1,5 +1,5 @@
-import { AppStatus, Application } from 'src/type'
-import { isPromise } from 'src/utils'
+import { AppStatus, Application } from '../type'
+import { isPromise } from '../utils'
 
 export default async function mountApp(app: Application) {
   let result = (app as any).mount(app.props)

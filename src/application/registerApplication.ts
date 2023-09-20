@@ -1,4 +1,4 @@
-import { AppStatus, Application } from 'src/type'
+import { AppStatus, Application } from '../type'
 import { apps } from './apps'
 /**
  * 注册应用 改变应用状态

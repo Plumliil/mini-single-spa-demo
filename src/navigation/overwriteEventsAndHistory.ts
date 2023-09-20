@@ -1,4 +1,4 @@
-import { loadApps } from 'src/application/apps'
+import { loadApps } from '../application/apps'
 
 const originPushState = window.history.pushState
 const originReplaceState = window.history.replaceState
