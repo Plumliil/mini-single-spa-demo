@@ -1,6 +1,5 @@
 import { Application, Source } from 'src/type'
 import { createElement, removeNode } from './dom'
-
 // URL正则
 const urlReg = /^http(s)?:\/\//
 function isCorrectURL(url = '') {
@@ -10,37 +9,34 @@ export async function parseHTMLandloadSources(app: Application) {
   return new Promise<void>(async (resolve, reject) => {
     // judge pageEntry url is valid or not
     const pageEntry = app.pageEntry
-    console.log('pageEntry', pageEntry)
     if (!isCorrectURL(pageEntry)) {
       return reject(Error(`${pageEntry} is not a valid url`))
     }
     let html: any = ''
     try {
-      html = await loadSourceText(pageEntry)
+      html = await loadSourceText(pageEntry as string)
     } catch (error) {
       reject(error)
     }
     const domParser = new DOMParser()
     const doc = domParser.parseFromString(html, 'text/html')
-    console.log('html', { html, doc })
     const { scripts, styles } = extractStyleAndScript(doc, app)
     app.pageBody = doc.body.innerHTML
     let isLoadStyleDone = false,
       isLoadScriptDone = false
+    console.log('app.pageBody', app.pageBody)
 
     // loading styles and put into document
-    Promise.all(loadStyle(styles))
+    Promise.all(loadStyle(styles, app))
       .then((data) => {
-        console.log('loadstyle data', data)
         isLoadStyleDone = true
         addStyles(data as string[])
         if (isLoadScriptDone && isLoadStyleDone) return resolve()
       })
       .catch((err) => reject(err))
     // loading scrippt and run themselves by window
-    Promise.all(loadScript(scripts))
+    Promise.all(loadScript(scripts, app))
       .then((data) => {
-        console.log('loadScript data', data)
         isLoadScriptDone = true
         executeScripts(data as string[])
         if (isLoadScriptDone && isLoadStyleDone) return resolve()
@@ -117,9 +113,11 @@ export function extractStyleAndScript(
     styles,
   }
 }
-export async function loadSourceText(url: string) {
-  console.log('loadSourceText url', url)
-
+export async function loadSourceText(url: string, app?: Application) {
+  let finalUrl = url
+  if (app?.pageEntry) {
+    finalUrl = app.pageEntry + url
+  }
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.onload = (res: any) => {
@@ -127,19 +125,14 @@ export async function loadSourceText(url: string) {
     }
     xhr.onerror = reject
     xhr.onabort = reject
-    xhr.open(
-      'get',
-      url.includes('http://127.0.0.1:5174')
-        ? url
-        : 'http://127.0.0.1:5174' + url
-    )
+    xhr.open('get', finalUrl)
     xhr.send()
   })
 }
 
 const head = document.head
 
-function loadStyle(styles: Source[]) {
+function loadStyle(styles: Source[], app: Application) {
   if (!styles.length) {
     return []
   }
@@ -164,12 +157,12 @@ function loadStyle(styles: Source[]) {
         return
       }
       // if item is not global style then load source text and return
-      if (item.url) return loadSourceText(item.url)
+      if (item.url) return loadSourceText(item.url, app)
       return Promise.resolve(item.value)
     })
     .filter(Boolean)
 }
-function loadScript(scripts: Source[]) {
+function loadScript(scripts: Source[], app: Application) {
   if (!scripts.length) return []
   return scripts
     .map((item) => {
@@ -188,7 +181,7 @@ function loadScript(scripts: Source[]) {
         }
         return
       }
-      if (item.url) return loadSourceText(item.url)
+      if (item.url) return loadSourceText(item.url, app)
       return Promise.resolve(item.value)
     })
     .filter(Boolean)

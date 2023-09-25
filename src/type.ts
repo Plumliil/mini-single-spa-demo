@@ -49,10 +49,10 @@ export interface Application {
   name: string
   actionRule: Function | string
   // activeRule: Function | string
-  props: Function | AnyObject
-  container: HTMLElement
-  pageEntry: string
-  pageBody: string
+  props?: Function | AnyObject
+  container: Element | null
+  pageEntry?: string
+  pageBody?: string
   /**
    * app 已经加载过的 url，用于去重
    */

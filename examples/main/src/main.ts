@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { registerApplication } from '../../../src/index'
+import start from '../../../src/start'
 
 function $(el: string) {
   return document.querySelector(el)
@@ -8,38 +9,18 @@ function $(el: string) {
 registerApplication({
   name: 'vue',
   actionRule: '/vue',
-  pageEntry: 'http://127.0.0.1:5174/',
+  pageEntry: 'http://127.0.0.1:4173/',
   container: $('#mini-single-spa'),
-  loadApp() {
-    return Promise.resolve({
-      bootstrap() {
-        console.log('vue bootstrap')
-      },
-      mount() {
-        console.log('vue mount')
-      },
-      unmount() {
-        console.log('vue unmount')
-      },
-    })
-  },
+  loadedURLs: [],
 })
 registerApplication({
   name: 'react',
   actionRule: '/react',
-  loadApp() {
-    return Promise.resolve({
-      bootstrap() {
-        console.log('react bootstrap')
-      },
-      mount() {
-        console.log('react mount')
-      },
-      unmount() {
-        console.log('react unmount')
-      },
-    })
-  },
+  pageEntry: 'http://127.0.0.1:4175/',
+  container: $('#mini-single-spa'),
+  loadedURLs: [],
 })
+
+start()
 
 createApp(App).mount('#app')
