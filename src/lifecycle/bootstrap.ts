@@ -12,6 +12,8 @@ export default async function bootstrapApp(app: Application) {
   }
   // 对应用的生命周期进行挂载
   // const { bootstrap, mount, unmount } = await app.loadApp()
+  console.log('bootstrap window', window)
+
   const { bootstrap, mount, unmount } = await getLifeCycleFuncs(app.name)
   checkFun('bootstrap', bootstrap)
   checkFun('mount', mount)
@@ -27,6 +29,7 @@ export default async function bootstrapApp(app: Application) {
     props: app.props,
     container: app.container,
   })
+
   if (!isPromise(result)) {
     result = Promise.resolve(result)
   }
@@ -34,6 +37,7 @@ export default async function bootstrapApp(app: Application) {
   return result
     .then(() => {
       app.status = AppStatus.BOOTSTRAPPED
+      console.log('after bootstrap app', app)
     })
     .catch((err: Error) => {
       app.status = AppStatus.BOOTSTRAP_ERROR
@@ -59,6 +63,7 @@ function getProps(props: any) {
 
 async function getLifeCycleFuncs(name: string) {
   const result = window[`mini-single-spa-${name}`]
+
   if (typeof result === 'function') {
     return result()
   }

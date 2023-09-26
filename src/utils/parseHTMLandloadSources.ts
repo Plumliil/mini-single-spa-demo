@@ -24,8 +24,6 @@ export async function parseHTMLandloadSources(app: Application) {
     app.pageBody = doc.body.innerHTML
     let isLoadStyleDone = false,
       isLoadScriptDone = false
-    console.log('app.pageBody', app.pageBody)
-
     // loading styles and put into document
     Promise.all(loadStyle(styles, app))
       .then((data) => {

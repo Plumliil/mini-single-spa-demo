@@ -3,18 +3,20 @@ import './style.css'
 import App from './App.vue'
 
 let router = null
-let app: App<Element> | null = null
+let app: any = null
 
-function render(options = {}) {
-  const { container } = options
+function render(options: any) {
+  const container: Element | null = options.container
+  console.log('vue micro container', container,container.querySelector('#app'))
   app = createApp(App)
+  // app.mount('#app')
   app.mount(container ? container.querySelector('#app') : '#app')
 }
 
-export async function bootstrap() {
-  console.log(' vue micro bootstrap ')
+export async function bootstrap(props: any) {
+  console.log(' vue micro bootstrap ', props)
 }
-export async function mount(options: {} | undefined) {
+export async function mount(options: any) {
   console.log(' vue micro mount ')
   render(options)
 }

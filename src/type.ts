@@ -50,13 +50,13 @@ export interface Application {
   actionRule: Function | string
   // activeRule: Function | string
   props?: Function | AnyObject
-  container: Element | null
+  container: Element 
   pageEntry?: string
   pageBody?: string
   /**
    * app 已经加载过的 url，用于去重
    */
-  loadedURLs: string[]
+  loadedURLs?: string[]
   status?: AppStatus
   bootstrap?: (options: AnyObject) => Promise<any>
   mount?: (options: AnyObject) => Promise<any>

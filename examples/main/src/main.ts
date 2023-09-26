@@ -6,21 +6,24 @@ import start from '../../../src/start'
 function $(el: string) {
   return document.querySelector(el)
 }
+
+createApp(App).mount('#app')
+
+console.log("$('#mini-single-spa')", $('#mini-single-spa'))
+
 registerApplication({
   name: 'vue',
   actionRule: '/vue',
   pageEntry: 'http://127.0.0.1:4173/',
-  container: $('#mini-single-spa'),
-  loadedURLs: [],
+  container: $('#mini-single-spa') as Element,
 })
 registerApplication({
   name: 'react',
   actionRule: '/react',
   pageEntry: 'http://127.0.0.1:4175/',
-  container: $('#mini-single-spa'),
-  loadedURLs: [],
+  container: $('#mini-single-spa') as Element,
 })
 
 start()
 
-createApp(App).mount('#app')
+

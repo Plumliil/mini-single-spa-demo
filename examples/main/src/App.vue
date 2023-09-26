@@ -15,7 +15,9 @@ const changeRoute = (route: string) => {
       <button @click="changeRoute('/vue')">/vue</button>
       <button @click="changeRoute('/react')">/react</button>
     </div>
-    <div id="mini-single-spa"></div>
+    <div id="mini-single-spa">
+      <div id="app"></div>
+    </div>
   </div>
 </template>
 

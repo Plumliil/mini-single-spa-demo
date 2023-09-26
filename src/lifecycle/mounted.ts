@@ -2,8 +2,13 @@ import { AppStatus, Application } from '../type'
 import { isPromise } from '../utils'
 
 export default async function mountApp(app: Application) {
-  let result = (app as any).mount(app.props)
-  // app.container.innerHTML = app.pageBody
+  let result = (app as any).mount({
+    props: app.props,
+    container: app.container,
+  })
+  console.log(app);
+  
+  app.container.innerHTML = app.pageBody as any
   if (!isPromise(result)) {
     result = Promise.resolve(result)
   }
