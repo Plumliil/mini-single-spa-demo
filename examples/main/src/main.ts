@@ -7,7 +7,7 @@ function $(el: string) {
   return document.querySelector(el)
 }
 
-createApp(App).mount('#app')
+createApp(App).mount('#mainapp')
 
 console.log("$('#mini-single-spa')", $('#mini-single-spa'))
 
@@ -20,7 +20,7 @@ registerApplication({
 registerApplication({
   name: 'react',
   actionRule: '/react',
-  pageEntry: 'http://127.0.0.1:4175/',
+  pageEntry: 'http://127.0.0.1:4174/',
   container: $('#mini-single-spa') as Element,
 })
 

@@ -15,10 +15,11 @@ const changeRoute = (route: string) => {
       <button @click="changeRoute('/vue')">/vue</button>
       <button @click="changeRoute('/react')">/react</button>
     </div>
-    <div id="mini-single-spa">
-      <div id="app"></div>
-    </div>
+    <hr style="width: 80%;" />
+    <h1>MICRO</h1>
+    <div id="mini-single-spa"></div>
   </div>
+  <div id="microapp"></div>
 </template>
 
 <style scoped>
@@ -28,13 +29,12 @@ const changeRoute = (route: string) => {
   align-items: center;
   flex-direction: column;
 }
-
-#mini-single-spa {
-  width: 60%;
-  height: 500px;
-  border: 1px solid black;
+#microapp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-
 button {
   margin: 20px 10px;
 }
