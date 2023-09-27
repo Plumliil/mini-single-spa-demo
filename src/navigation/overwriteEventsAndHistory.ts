@@ -10,7 +10,7 @@ export default function overwriteEventAndHistory() {
     url?: string | URL | null | undefined
   ): void {
     const result = originPushState.call(this, data, unused, url)
-    loadApps('pushState')
+    loadApps()
     return result
   }
   window.history.replaceState = function (
@@ -19,13 +19,13 @@ export default function overwriteEventAndHistory() {
     url?: string | URL | null | undefined
   ) {
     const result = originReplaceState.call(this, data, unused, url)
-    loadApps('replaceState')
+    loadApps()
     return result
   }
   window.addEventListener('popstate', () => {
-    console.log('popstate')
+    loadApps()
   })
   window.addEventListener('hashChange', () => {
-    console.log('hashChange')
+    loadApps()
   })
 }

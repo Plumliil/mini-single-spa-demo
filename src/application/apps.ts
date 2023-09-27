@@ -5,7 +5,7 @@ import { AppStatus, Application } from 'src/type'
 
 export let apps: Application[] = []
 
-export async function loadApps(str: string) {
+export async function loadApps() {
   // 对已注册的应用 进行初始化 将其状态转化为BOOTSRTAP
   const toBootstrapApp = getAppByStatus(AppStatus.BEFORE_BOOTSTRAP)
   // 异步执行
