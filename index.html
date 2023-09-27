@@ -5,6 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini-Single-Spa-Demo</title>
+  <style>
+    #mini-single-spa{
+      width: 300px;
+      height: 500px;
+      border: 1px solid black;
+      margin: 50px auto;
+    }
+  </style>
 </head>
 
 <body>
@@ -12,6 +20,7 @@
   <button class="btn1">/</button>
   <button class="btn2">vue</button>
   <button class="btn3">react</button>
+  <div id="mini-single-spa"></div>
   <!-- <script src=""></script> -->
   <script type="module">
     import { registerApplication } from './dist/index.esm.js'
@@ -30,6 +39,8 @@
     registerApplication({
       name: 'vue',
       actionRule: '/vue',
+      pageEntry: 'http://127.0.0.1:3002/',
+      container: $('#mini-single-spa'),
       loadApp() {
         return Promise.resolve({
           bootstrap() {
@@ -61,6 +72,40 @@
         })
       }
     })
+    // function extractStyleAndScript(node) {
+    //   let style = []
+    //   let script = []
+    //   for (const child of Array.from(node.children)) {
+    //     if (!child.children.length) return { style: [], script: [] }
+    //     console.log(child.tagName);
+    //     // if(child.tagName)
+    //   }
+    // }
+    // function loadSourceText(url) {
+    //   const xhr = new XMLHttpRequest()
+    //   xhr.onload = (res) => {
+    //     // resolve(res.target.response)
+    //     // console.log(res,res.target.response);
+    //     const html = res.target.response;
+    //     const domparser = new DOMParser()
+    //     const doc = domparser.parseFromString(html, 'text/html')
+    //     console.log(doc);
+    //     console.log('Array.from(doc.children)', Array.from(doc.children));
+    //     extractStyleAndScript(doc)
+    //     return res.target.response
+    //   }
+
+    //   xhr.onerror = (err) => {
+    //     console.log(err);
+    //   }
+    //   xhr.onabort = (err) => {
+    //     console.log(err);
+    //   }
+    //   xhr.open('get', url)
+    //   xhr.send()
+    // }
+    // loadSourceText('http://127.0.0.1:3002/')
+    // start()
   </script>
 </body>
 

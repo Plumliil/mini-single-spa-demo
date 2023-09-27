@@ -1,9 +1,20 @@
-import { AppStatus, Application } from 'src/type'
-import { isPromise } from 'src/utils'
+import { AppStatus, Application } from '../type'
+import { isPromise } from '../utils'
+import { parseHTMLandloadSources } from '../utils/parseHTMLandloadSources'
+
+declare const window: any
 
 export default async function bootstrapApp(app: Application) {
+  try {
+    parseHTMLandloadSources(app)
+  } catch (error) {
+    throw error
+  }
   // 对应用的生命周期进行挂载
-  const { bootstrap, mount, unmount } = await app.loadApp()
+  // const { bootstrap, mount, unmount } = await app.loadApp()
+  // console.log('bootstrap window', window)
+
+  const { bootstrap, mount, unmount } = await getLifeCycleFuncs(app.name)
   checkFun('bootstrap', bootstrap)
   checkFun('mount', mount)
   checkFun('unmount', unmount)
@@ -14,7 +25,11 @@ export default async function bootstrapApp(app: Application) {
   const props = getProps(app?.props)
   app.props = props
   // 执行bootstrap函数 做某些操作
-  let result = (app as any).bootstrap(app.props)
+  let result = (app as any).bootstrap({
+    props: app.props,
+    container: app.container,
+  })
+
   if (!isPromise(result)) {
     result = Promise.resolve(result)
   }
@@ -22,6 +37,7 @@ export default async function bootstrapApp(app: Application) {
   return result
     .then(() => {
       app.status = AppStatus.BOOTSTRAPPED
+      console.log('after bootstrap app', app)
     })
     .catch((err: Error) => {
       app.status = AppStatus.BOOTSTRAP_ERROR
@@ -43,4 +59,25 @@ function getProps(props: any) {
   } else {
     return {}
   }
+}
+
+async function getLifeCycleFuncs(name: string) {
+  console.log('JSON.stringify(window)', JSON.stringify(window))
+
+  let newList = Object.assign({}, window)
+  console.log(newList[`mini-single-spa-${name}`], '--------------------')
+
+  const result = window[`mini-single-spa-${name}`]
+
+  if (typeof result === 'function') {
+    return result()
+  }
+
+  if (typeof result === 'object') {
+    return result
+  }
+
+  throw Error(
+    `The micro app must inject the lifecycle("bootstrap" "mount" "unmount") into window['mini-single-spa-${name}']`
+  )
 }

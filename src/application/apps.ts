@@ -1,11 +1,11 @@
-import bootstrapApp from 'src/lifecycle/bootstrap'
-import mountApp from 'src/lifecycle/mounted'
-import unmountApp from 'src/lifecycle/unMounted'
-import { AppStatus, Application } from 'src/type'
+import bootstrapApp from '../lifecycle/bootstrap'
+import mountApp from '../lifecycle/mounted'
+import unmountApp from '../lifecycle/unMounted'
+import { AppStatus, Application } from '../type'
 
 export let apps: Application[] = []
 
-export async function loadApps(str: string) {
+export async function loadApps() {
   // 对已注册的应用 进行初始化 将其状态转化为BOOTSRTAP
   const toBootstrapApp = getAppByStatus(AppStatus.BEFORE_BOOTSTRAP)
   // 异步执行
