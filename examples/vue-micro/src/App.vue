@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const toHome = () => {
-  history.go(-1)
+  history.pushState(null, '', '/')
 }
 </script>
 
@@ -12,10 +12,11 @@ const toHome = () => {
 </template>
 
 <style scoped>
-.vue-micro{
+.vue-micro {
   display: flex;
 
 }
+
 .logo {
   height: 6em;
   padding: 1.5em;

@@ -5,19 +5,23 @@ import App from './App.vue'
 let router = null
 let app: any = null
 
-function render(options: any) {
+function render(options: any = {}) {
   const container: Element | null = options.container
-  console.log('vue micro container', container,container.querySelector('#app'))
   app = createApp(App)
-  // app.mount('#app')
-  app.mount(container ? container.querySelector('#app') : '#app')
+  if (container) {
+    const microApp = document
+      .querySelector('#microapp')
+    app.mount('#microapp')
+  } else {
+    app.mount('#app')
+  }
 }
 
 export async function bootstrap(props: any) {
   console.log(' vue micro bootstrap ', props)
 }
 export async function mount(options: any) {
-  console.log(' vue micro mount ')
+  console.log(' vue micro mount options', options)
   render(options)
 }
 export async function unmount() {
