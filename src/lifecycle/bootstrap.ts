@@ -12,7 +12,7 @@ export default async function bootstrapApp(app: Application) {
   }
   // 对应用的生命周期进行挂载
   // const { bootstrap, mount, unmount } = await app.loadApp()
-  console.log('bootstrap window', window)
+  // console.log('bootstrap window', window)
 
   const { bootstrap, mount, unmount } = await getLifeCycleFuncs(app.name)
   checkFun('bootstrap', bootstrap)
@@ -62,6 +62,11 @@ function getProps(props: any) {
 }
 
 async function getLifeCycleFuncs(name: string) {
+  console.log('JSON.stringify(window)', JSON.stringify(window))
+
+  let newList = Object.assign({}, window)
+  console.log(newList[`mini-single-spa-${name}`], '--------------------')
+
   const result = window[`mini-single-spa-${name}`]
 
   if (typeof result === 'function') {
